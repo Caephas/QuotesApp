@@ -1,4 +1,8 @@
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 class MyHomePage extends StatefulWidget {
 
   @override
@@ -10,9 +14,15 @@ class _MyHomePageState extends State<MyHomePage> {
   static const heartLikedColor = const Color(0xfff44336);
   static const heartUnLikedColor = const Color(0xffc6c4c4);
   Color favorite = heartUnLikedColor;
-  static const textColor = const Color(0xff373737);
+//  static const textColor = const Color(0xff373737);
+
+  static const textColorWhite = const Color(0xffffffff);
+  static const iconColor = const Color(0xffffffff);
+  static const themeColor = const Color(0xff4a55a4);
 
   String value;
+  String dailyQuote = "Whatever you are, be a good one.";
+  String author = "-Abraham Lincoln";
   static const popItem = <String>['Expand', 'Copy', 'Share'];
   static List<PopupMenuItem<String>> _pop = popItem.map((String val) =>
       PopupMenuItem<String>(
@@ -26,6 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       return heartUnLikedColor;
     }
+  }
+
+  void close(BuildContext context){
+    Navigator.pop(context);
   }
 
   showQuotesDialog({String quotes, String author, BuildContext context}) {
@@ -228,10 +242,141 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        endDrawer: Drawer(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: themeColor
+              ),
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Align(
+                          child: Text(
+                            dailyQuote,
+                            style: TextStyle(
+                              color: textColorWhite,
+                              fontSize: 16,
+                            ),
+                          ),
+                          alignment: Alignment.bottomLeft,
+                        ),
+                        Align(
+                          child: Text(
+                            author,
+                            style: TextStyle(
+                                color: textColorWhite,
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                          alignment: Alignment.bottomLeft,
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        color: themeColor,
+                        image: DecorationImage(
+                            image: AssetImage(
+                                "assets/sky.png"
+                            ),
+                            fit: BoxFit.cover
+                        )
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.zero,
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(
+                            Icons.stars,
+                            color: iconColor,
+                          ),
+                          title: Text(
+                            "Quote of the day",
+                            style: TextStyle(
+                                color: textColorWhite
+                            ),
+                          ),
+                          onTap: () {
+                            close(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                              Icons.favorite,
+                              color: iconColor),
+                          title: Text(
+                            "Liked Quotes",
+                            style: TextStyle(
+                                color: textColorWhite
+                            ),
+                          ),
+                          onTap: () {
+                            close(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                              Icons.phone,
+                              color: iconColor
+                          ),
+                          title: Text(
+                            "Contact Us",
+                            style: TextStyle(
+                                color: textColorWhite
+                            ),
+                          ),
+                          onTap: () {
+                            close(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                              Icons.share,
+                              color: iconColor
+                          ),
+                          title: Text(
+                            "Share App",
+                            style: TextStyle(
+                                color: textColorWhite
+                            ),
+                          ),
+                          onTap: () {
+                            close(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                              Icons.star,
+                              color: iconColor
+                          ),
+                          title: Text(
+                            "Rate Us",
+                            style: TextStyle(
+                                color: textColorWhite
+                            ),
+                          ),
+                          onTap: () {
+                            close(context);
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+        ),
         appBar: AppBar(
           title: Text("iMotivate"),
         ),
@@ -257,7 +402,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               text: "I hated every minute of training, but I said, Don’t quit. Suffer now and live the rest of your life as a champion.",
                               style: TextStyle(
                                   fontSize: 18.0,
-                                  color: textColor
+                                  color: textColorWhite
                               )
                           )),),
                         SizedBox(height: 3.0,),
@@ -265,7 +410,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text(" Muhammad Ali",
                             style: TextStyle(
                                 fontSize: 17.5,
-                                color: textColor
+                                color: textColorWhite
                             ),),
                         ),
                         SizedBox(height: 5.0,),
@@ -300,4 +445,6 @@ class _MyHomePageState extends State<MyHomePage> {
             })
     );
   }
+
 }
+

@@ -46,6 +46,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/waterfall.jpg
+    - assets/sky.png
     - assets/splash_screen.png
 
   # To add assets to your application, add an assets section, like this:
