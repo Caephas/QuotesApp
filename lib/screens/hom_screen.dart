@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/widgets.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class MyHomePage extends StatefulWidget {
 
@@ -23,6 +24,11 @@ class _MyHomePageState extends State<MyHomePage> {
   static const textColorWhite = const Color(0xffffffff);
   static const iconColor = const Color(0xffffffff);
   static const themeColor = const Color(0xff4a55a4);
+
+  //contact us info
+  String twitter = "@hnginternship";
+  String email = "hello@hng.tech";
+  String web = "hng.tech";
 
   String value;
   String dailyQuote = "Whatever you are, be a good one.";
@@ -45,6 +51,196 @@ class _MyHomePageState extends State<MyHomePage> {
   void close(BuildContext context){
     Navigator.pop(context);
   }
+
+  showRateUsDialog(BuildContext context){
+
+    showDialog(
+        context: context,
+        builder: (c)=>AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5))
+          ),
+          content: Container(
+            height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+
+                Stack(
+
+                  children: <Widget>[
+                    Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text("Contact Us",
+
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )),
+
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: (){
+                            close(context);
+                          }
+                      ),
+                    )
+                  ],
+                ),
+
+                SmoothStarRating(
+                    allowHalfRating: true,
+                    onRated: (v) {
+                    },
+                    starCount: 5,
+                    rating: 4,
+                    size: 40.0,
+                    isReadOnly:false,
+                    color: themeColor,
+                    borderColor: themeColor,
+                    spacing:0.0
+                ),
+
+                RaisedButton(onPressed: null,
+
+                  color: themeColor,
+                  child: Text("Submit",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+
+
+              ],
+            ),
+          ),
+        )
+
+    );
+
+  }
+
+
+  showContactUsDialog(BuildContext context){
+
+
+    showDialog(
+        context: context,
+        builder: (c)=> AlertDialog(
+
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5))
+          ),
+
+          content: Container(
+            height: 200,
+            child: Column(
+              children: <Widget>[
+                Stack(
+
+                  children: <Widget>[
+                    Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text("Contact Us",
+
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )),
+
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: (){
+                            close(context);
+                          }
+                      ),
+                    )
+                  ],
+                ),
+
+
+                SizedBox(
+                  height: 30,
+                ),
+
+                InkWell(
+                  onTap: (){},
+                  child: Row(
+                    children: <Widget>[
+                      ImageIcon(
+                        AssetImage("assets/twitter.png"),
+
+                        size: 24,
+                      ),
+
+                      SizedBox(
+                        width: 20,
+                      ),
+
+                      Text(twitter)
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                InkWell(
+                  onTap: (){},
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.email),
+
+                      SizedBox(
+                        width: 20,
+                      ),
+
+                      Text(email)
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                InkWell(
+                  onTap: (){},
+                  child: Row(
+                    children: <Widget>[
+
+                      ImageIcon(
+                        AssetImage("assets/internet.png"),
+
+                        size: 24,
+                      ),
+
+
+                      SizedBox(
+                        width: 20,
+                      ),
+
+                      Text(web)
+                    ],
+                  ),
+                ),
+
+
+              ],
+            ),
+          ),
+        )
+    );
+
+  }
+
+
 
   showQuotesDialog({String quotes, String author, BuildContext context}) {
 
@@ -289,10 +485,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: BoxDecoration(
                         color: themeColor,
                         image: DecorationImage(
-                            image: AssetImage(
-                                "assets/layeredsky.png"
-                            ),
-                            fit: BoxFit.cover,
+                          image: AssetImage(
+                              "assets/layeredsky.png"
+                          ),
+                          fit: BoxFit.cover,
                         )
                     ),
                   ),
@@ -350,6 +546,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           onTap: () {
                             close(context);
+                            showContactUsDialog(context);
                           },
                         ),
                         Divider(
@@ -388,6 +585,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           onTap: () {
                             close(context);
+                            showRateUsDialog(context);
                           },
                         )
                       ],
@@ -467,36 +665,36 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-        @override
-        void initState() {
-          super.initState();
-        showAlertDialog();
-        }
+  @override
+  void initState() {
+    super.initState();
+    showAlertDialog();
+  }
 
-        void showAlertDialog() async{
-          final prefs = await SharedPreferences.getInstance();
-          int timeStamp = DateTime.now().millisecondsSinceEpoch;
-          bool boolean = prefs.getBool(isNewDay);
-          if(boolean == null){
-            prefs.setBool(isNewDay, true);
-            showQuotesDialog(quotes: "Lorem", author: "Muhammed Ali", context: context);
-          }else if(boolean){
-            timeStamp = DateTime.now().millisecondsSinceEpoch;
-            prefs.setInt(firstTimeKey, timeStamp);
-            int time = prefs.getInt(firstTimeKey);
-            DateTime firstLoginTime = DateTime.fromMillisecondsSinceEpoch(time);
-            DateTime presentTime = DateTime.now();
-            var timeDifference = presentTime.difference(firstLoginTime).inDays;
+  void showAlertDialog() async{
+    final prefs = await SharedPreferences.getInstance();
+    int timeStamp = DateTime.now().millisecondsSinceEpoch;
+    bool boolean = prefs.getBool(isNewDay);
+    if(boolean == null){
+      prefs.setBool(isNewDay, true);
+      showQuotesDialog(quotes: "Lorem", author: "Muhammed Ali", context: context);
+    }else if(boolean){
+      timeStamp = DateTime.now().millisecondsSinceEpoch;
+      prefs.setInt(firstTimeKey, timeStamp);
+      int time = prefs.getInt(firstTimeKey);
+      DateTime firstLoginTime = DateTime.fromMillisecondsSinceEpoch(time);
+      DateTime presentTime = DateTime.now();
+      var timeDifference = presentTime.difference(firstLoginTime).inDays;
 
-            if(timeDifference > 0){
-              timeStamp = DateTime.now().millisecondsSinceEpoch;
-              prefs.setInt(firstTimeKey, timeStamp);
-              showQuotesDialog(quotes: "Lorem", author: "Muhammed Ali", context: context);
-            }
-          }
+      if(timeDifference > 0){
+        timeStamp = DateTime.now().millisecondsSinceEpoch;
+        prefs.setInt(firstTimeKey, timeStamp);
+        showQuotesDialog(quotes: "Lorem", author: "Muhammed Ali", context: context);
+      }
+    }
 
 
-        }
+  }
 
 
 }
