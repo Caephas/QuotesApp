@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 class MyHomePage extends StatefulWidget {
 
   @override
@@ -202,7 +204,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             Text("Copy text")
                           ],
                         ),
-                        onTap: (){},
+                        onTap: (){
+                          Clipboard.setData(ClipboardData(text: quotes));
+                        },
                       ),
                       InkWell(
                         child: Column(
