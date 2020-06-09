@@ -205,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                         onTap: (){
-                          Clipboard.setData(ClipboardData(text: quotes));
+                          Clipboard.setData(ClipboardData(text: quotes+" - "+author));
                         },
                       ),
                       InkWell(
