@@ -22,6 +22,7 @@ environment:
 
 dependencies:
   shared_preferences: ^0.5.6
+  smooth_star_rating: 1.1.1
   splashscreen: ^1.2.0
   flutter:
     sdk: flutter
@@ -46,6 +47,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/internet.png
+    - assets/twitter.png
     - assets/waterfall.jpg
     - assets/layeredsky.png
     - assets/splash_screen.png
