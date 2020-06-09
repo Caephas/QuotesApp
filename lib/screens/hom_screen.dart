@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 class MyHomePage extends StatefulWidget {
 
   @override
@@ -7,10 +10,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  final firstTimeKey = 'timeStampKey';
+  final isNewDay = "isNewDay";
+
   static const heartLikedColor = const Color(0xfff44336);
   static const heartUnLikedColor = const Color(0xffc6c4c4);
   Color favorite = heartUnLikedColor;
   static const textColor = const Color(0xff373737);
+
+
 
   String value;
   static const popItem = <String>['Expand', 'Copy', 'Share'];
@@ -300,4 +308,38 @@ class _MyHomePageState extends State<MyHomePage> {
             })
     );
   }
+
+        @override
+        void initState() {
+          super.initState();
+        showAlertDialog();
+        }
+
+        void showAlertDialog() async{
+          final prefs = await SharedPreferences.getInstance();
+          int timeStamp = DateTime.now().millisecondsSinceEpoch;
+          bool boolean = prefs.getBool(isNewDay);
+          if(boolean == null){
+            prefs.setBool(isNewDay, true);
+            showQuotesDialog(quotes: "Lorem", author: "Muhammed Ali", context: context);
+          }else if(boolean){
+            timeStamp = DateTime.now().millisecondsSinceEpoch;
+            prefs.setInt(firstTimeKey, timeStamp);
+            int time = prefs.getInt(firstTimeKey);
+            DateTime firstLoginTime = DateTime.fromMillisecondsSinceEpoch(time);
+            DateTime presentTime = DateTime.now();
+            var timeDifference = presentTime.difference(firstLoginTime).inDays;
+
+            if(timeDifference > 0){
+              timeStamp = DateTime.now().millisecondsSinceEpoch;
+              prefs.setInt(firstTimeKey, timeStamp);
+              showQuotesDialog(quotes: "Lorem", author: "Muhammed Ali", context: context);
+            }
+          }
+
+
+        }
+
+
+
 }
