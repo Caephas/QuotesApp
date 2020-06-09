@@ -257,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: EdgeInsets.zero,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Align(
                           child: Text(
@@ -267,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize: 16,
                             ),
                           ),
-                          alignment: Alignment.bottomLeft,
+                          alignment: Alignment.center,
                         ),
                         Align(
                           child: Text(
@@ -278,7 +278,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 fontStyle: FontStyle.italic
                             ),
                           ),
-                          alignment: Alignment.bottomLeft,
+                          alignment: Alignment.bottomRight,
                         )
                       ],
                     ),
@@ -286,9 +286,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: themeColor,
                         image: DecorationImage(
                             image: AssetImage(
-                                "assets/sky.png"
+                                "assets/layeredsky.png"
                             ),
-                            fit: BoxFit.cover
+                            fit: BoxFit.cover,
                         )
                     ),
                   ),
@@ -311,6 +311,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             close(context);
                           },
                         ),
+                        Divider(
+                          height: 0.7,
+                          color: Colors.white70,
+                        ),
                         ListTile(
                           leading: Icon(
                               Icons.favorite,
@@ -324,6 +328,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           onTap: () {
                             close(context);
                           },
+                        ),
+                        Divider(
+                          height: 0.7,
+                          color: Colors.white70,
                         ),
                         ListTile(
                           leading: Icon(
@@ -340,6 +348,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             close(context);
                           },
                         ),
+                        Divider(
+                          height: 0.7,
+                          color: Colors.white70,
+                        ),
                         ListTile(
                           leading: Icon(
                               Icons.share,
@@ -354,6 +366,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           onTap: () {
                             close(context);
                           },
+                        ),
+                        Divider(
+                          height: 0.7,
+                          color: Colors.white70,
                         ),
                         ListTile(
                           leading: Icon(
