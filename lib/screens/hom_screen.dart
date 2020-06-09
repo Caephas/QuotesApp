@@ -14,7 +14,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const heartLikedColor = const Color(0xfff44336);
   static const heartUnLikedColor = const Color(0xffc6c4c4);
   Color favorite = heartUnLikedColor;
-//  static const textColor = const Color(0xff373737);
+  static const textColor = const Color(0xff373737);
 
   static const textColorWhite = const Color(0xffffffff);
   static const iconColor = const Color(0xffffffff);
