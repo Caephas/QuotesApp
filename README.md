@@ -33,10 +33,10 @@ installed on your pc.
 
 ### Outcome
 
- ![Splash Screen](https://github.com/xi6th/QuotesApp/images/Screenshot_20200608-210913.png)
- ![App navigation Drawer](https://github.com/xi6th/QuotesApp/images/Screenshot_20200609-165000png)
- ![Quote](https://github.com/xi6th/QuotesApp/images/Screenshot_20200609-140653.png)
- ![Home](https://github.com/xi6th/QuotesApp/images/Screenshot_20200609-030351.png)
+ ![Splash Screen](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200608-210913.png)
+ ![App navigation Drawer](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200609-165000png)
+ ![Quote](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200609-140653.png)
+ ![Home](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200609-030351.png)
 
 ## References
 
