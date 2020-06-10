@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -175,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     children: <Widget>[
                       ImageIcon(
-                        AssetImage("assets/twitter.png"),
+                        AssetImage("assets/images/twitter.png"),
 
                         size: 24,
                       ),
@@ -218,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
 
                       ImageIcon(
-                        AssetImage("assets/internet.png"),
+                        AssetImage("assets/images/internet.png"),
 
                         size: 24,
                       ),
@@ -272,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               topRight: Radius.circular(10)
                           ),
                           image: DecorationImage(
-                              image: AssetImage("assets/waterfall.jpg"),
+                              image: AssetImage("assets/images/waterfall.jpg"),
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
                           ),
@@ -488,7 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: themeColor,
                         image: DecorationImage(
                           image: AssetImage(
-                              "assets/layeredsky.png"
+                              "assets/images/layeredsky.png"
                           ),
                           fit: BoxFit.cover,
                         )
@@ -704,5 +703,3 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 }
-
-

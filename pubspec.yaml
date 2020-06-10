@@ -28,6 +28,23 @@ dependencies:
   package_info: ^0.4.0+13
   flutter:
     sdk: flutter
+  smooth_star_rating: ^1.1.1
+  package_info: ^0.4.0+13
+  bloc: ^3.0.0
+  flutter_bloc: ^3.2.0
+  equatable: ^1.1.1
+  cloud_firestore: ^0.13.6
+  flutter_svg: ^0.17.4
+  font_awesome_flutter: ^8.8.1
+  share: ^0.6.4+3
+  path_provider: ^1.6.10
+  downloads_path_provider: ^0.1.0
+  permission_handler: ^5.0.0+hotfix.9
+  rating_bar: ^0.2.0
+  url_launcher: ^5.4.2
+  shared_preferences: ^0.5.7+3
+  intl: ^0.16.1
+  fluttertoast: ^4.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -49,11 +66,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/internet.png
-    - assets/twitter.png
-    - assets/waterfall.jpg
-    - assets/layeredsky.png
-    - assets/splash_screen.png
+    - assets/
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -71,7 +85,23 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: RobotoBold
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+    - family: RobotoLight
+      fonts:
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+    - family: RobotoMed
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 400
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
