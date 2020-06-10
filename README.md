@@ -33,6 +33,11 @@ installed on your pc.
 
 ### Outcome
 
+ ![Splash Screen](https://github.com/xi6th/QuotesApp/images/Screenshot_20200608-210913.png)
+ ![App navigation Drawer](https://github.com/xi6th/QuotesApp/images/Screenshot_20200609-165000png)
+ ![Quote](https://github.com/xi6th/QuotesApp/images/Screenshot_20200609-140653.png)
+ ![Home](https://github.com/xi6th/QuotesApp/images/Screenshot_20200609-030351.png)
+
 ## References
 
 For help getting started with Flutter, view our [online documentation](https://flutter.dev/docs), which offers tutorials,samples, guidance on mobile development, and a full API reference.
