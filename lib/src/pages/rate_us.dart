@@ -3,27 +3,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quotesapp/styles/colors.dart';
 import 'package:rating_bar/rating_bar.dart';
 
-class RateUs extends StatefulWidget {
-  @override
-  _RateUsState createState() => _RateUsState();
-}
+class RateUs extends StatelessWidget {
+  static const String routeName = "/rate";
 
-class _RateUsState extends State<RateUs> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){Navigator.pop(context);},
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            width: MediaQuery.of(context).size.width,
+  showQuotesDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(5.0)
+              )
+          ),
+          contentPadding: EdgeInsets.all(0.0),
+          content: Container(
             height: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: Colors.white,
-            ),
+            width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,6 +41,7 @@ class _RateUsState extends State<RateUs> {
                     style: Theme.of(context).textTheme.headline5.copyWith(fontSize: 30),
                   ),
                 ),
+                SizedBox(height: 10,),
                 Container(
                   child: RatingBar(
                     onRatingChanged: (rating){},
@@ -62,8 +58,11 @@ class _RateUsState extends State<RateUs> {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return showQuotesDialog(context);
   }
 }

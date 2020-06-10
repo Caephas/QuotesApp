@@ -285,9 +285,9 @@ class _QuoteDialogState extends State<QuoteDialog> {
                       right: 5,
                       child: GestureDetector(
                         onTap: (){
-                          setState(() {
-                            ind!=data.length ? ind+=1 : ind=ind;
-                          });
+                          ind!=data.length-1 ? setState(() {
+                             ind+=1;
+                          }) : null;
                         },
                         child: Container(
                           child: Row(
@@ -312,9 +312,9 @@ class _QuoteDialogState extends State<QuoteDialog> {
                       left: 5,
                       child: GestureDetector(
                         onTap: (){
-                          setState(() {
-                            ind!=0 ? ind-=1 : ind=ind;
-                          });
+                          ind!=0 ? setState(() {
+                             ind-=1;
+                          }) : null;
                         },
                         child: Container(
                           child: Row(

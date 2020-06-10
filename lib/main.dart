@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quotesapp/home.dart';
 import 'package:quotesapp/src/pages/favourites_page.dart';
+import 'package:quotesapp/src/pages/quote_day.dart';
+import 'package:quotesapp/src/pages/rate_us.dart';
+import 'package:quotesapp/utils/tools.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future<void> main() async {
@@ -11,6 +15,7 @@ Future<void> main() async {
     statusBarColor: Colors.transparent
   ));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  Tools.prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
@@ -30,6 +35,7 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(title: 'iMotivate'),
       routes: {
         FavouritesPage.routeName:(context) => FavouritesPage(),
+        QuoteDay.routeName:(context) => QuoteDay(),
       },
     );
   }

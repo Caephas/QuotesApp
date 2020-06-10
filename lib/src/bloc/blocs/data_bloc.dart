@@ -11,6 +11,8 @@ class DataBloc extends Bloc<DataEvent, DataState> {
 
   DataBloc._internal();
 
+  int quoteIndex;
+
   @override
   get initialState => DataState.initial();
 

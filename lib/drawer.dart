@@ -1,14 +1,55 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info/package_info.dart';
+import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/pages/contact_us.dart';
 import 'package:quotesapp/src/pages/favourites_page.dart';
+import 'package:quotesapp/src/pages/quote_day.dart';
 import 'package:quotesapp/src/pages/rate_us.dart';
+import 'package:quotesapp/src/pages/widgets/quote_day_dialog.dart';
 import 'package:quotesapp/styles/colors.dart';
 import 'package:quotesapp/utils/tools.dart';
+import 'package:share/share.dart';
+import 'package:rating_bar/rating_bar.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
+
+  @override
+  _MainDrawerState createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  var _dataBloc = DataBloc();
+  GlobalKey scr = new GlobalKey();
+  final scaffoldKey = GlobalKey<ScaffoldState>(); 
+  Directory downloadsDirectory;
+
+  @override
+  void initState() { 
+    super.initState();
+    initDownloadsDirectoryState();
+  }
+
+  Future<void> initDownloadsDirectoryState() async {
+    Directory downloadsDirectory;
+    try {
+      downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
+    } on PlatformException {
+      print('Could not get the downloads directory');
+    }
+    if (!mounted) return;
+
+    setState(() {
+      downloadsDirectory = downloadsDirectory;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget draw(String svg, String text) {
@@ -99,7 +140,13 @@ class MainDrawer extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      draw('assets/images/spike.svg', 'Quote of the day'),
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).pop();
+                          QuoteDayDialog().showQuotesDialog(_dataBloc.state.quotes, context, downloadsDirectory, scaffoldKey, _dataBloc.quoteIndex, scr, _dataBloc);
+                        },
+                        child: draw('assets/images/spike.svg', 'Quote of the day')
+                      ),
                       Padding(
                         padding:EdgeInsets.only(left:35.0),
                         child:Container(
@@ -122,16 +169,7 @@ class MainDrawer extends StatelessWidget {
                       InkWell(
                         onTap: (){
                           Navigator.of(context).pop();
-                          Navigator.of(context).push(
-                            new PageRouteBuilder(
-                                opaque: false,
-                                barrierColor: Colors.black.withOpacity(0.5),
-                                barrierDismissible: true,
-                                pageBuilder: (BuildContext context, __, _) {
-                                    return ContactUs();
-                                }
-                            )
-                          );
+                          ContactUs().showContactDialog(context);
                         },
                         child: draw('assets/images/phone.svg', 'Contact Us')
                       ),
@@ -141,7 +179,14 @@ class MainDrawer extends StatelessWidget {
                         height:1.0,
                         width:MediaQuery.of(context).size.width,
                         color:Colors.white.withOpacity(0.3),),),
-                      draw('assets/images/share.svg', 'Share App'),
+                      InkWell(
+                        onTap: (){
+                          Share.share('Get inspired and motivated :' + 
+                                "https://play.google.com/store/apps/details?id=" + 
+                                PackageInfo().appName);
+                        },
+                        child: draw('assets/images/share.svg', 'Share App')
+                      ),
                       Padding(
                         padding:EdgeInsets.only(left:35.0),
                         child:Container(
@@ -151,16 +196,7 @@ class MainDrawer extends StatelessWidget {
                       InkWell(
                         onTap: (){
                           Navigator.of(context).pop();
-                          Navigator.of(context).push(
-                            new PageRouteBuilder(
-                                opaque: false,
-                                barrierColor: Colors.black.withOpacity(0.5),
-                                barrierDismissible: true,
-                                pageBuilder: (BuildContext context, __, _) {
-                                    return RateUs();
-                                }
-                            )
-                          );
+                          RateUs().showQuotesDialog(context);
                         },
                         child: draw('assets/images/rate.svg', 'Rate Us')
                       ),

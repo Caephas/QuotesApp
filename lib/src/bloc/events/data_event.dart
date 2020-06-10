@@ -1,18 +1,25 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/models/quote_data.dart';
+import 'package:intl/intl.dart';
+import 'package:quotesapp/utils/tools.dart';
 
 abstract class DataEvent{}
 
 class FetchData extends DataEvent{
   List<QuoteData> _quotes = [];
-  FetchData(DataBloc bloc) {
+  FetchData(DataBloc bloc, String date) {
     List<QuoteData> hold;
-    fetch(bloc, hold);
+    fetch(bloc, hold, date);
   }
 
-  void fetch(DataBloc bloc, List<QuoteData> hold) async{
+  void fetch(DataBloc bloc, List<QuoteData> hold, String dateString) async{
     QuoteData quote;
+
+    
     final db = Firestore.instance;
     Future <List <DocumentSnapshot>> list() async {
       var data = await db.collection('quotes').getDocuments();
@@ -26,6 +33,23 @@ class FetchData extends DataEvent{
         _quotes.add(quote);
       });
     }).then((value) {
+      if(dateString == null) {
+        DateTime currentTime= DateTime.now();
+        Tools.prefs.setString('date', DateFormat("dd-MM-yyyy").format(currentTime).toString());
+        int ran = Random().nextInt(_quotes.length);
+        bloc.quoteIndex = ran;
+        Tools.prefs.setInt('no', ran);
+      }else {
+        var inputFormat = DateFormat("dd-MM-yyyy");
+        DateTime checkedDate= inputFormat.parse(dateString);
+        DateTime currentTime= DateTime.now();
+        if(DateTime(checkedDate.year, checkedDate.month, checkedDate.day).difference(DateTime(currentTime.year, currentTime.month, currentTime.day)).inDays == 1) {
+          Tools.prefs.setString('date', DateFormat("dd-MM-yyyy").format(currentTime).toString());
+          int ran = Random().nextInt(_quotes.length);
+          bloc.quoteIndex = ran;
+          Tools.prefs.setInt('no', ran);
+        }
+      }
       bloc.add(FetchDataSuccess(_quotes));
     });
     

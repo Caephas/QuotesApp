@@ -12,6 +12,7 @@ import 'package:quotesapp/src/models/quote_data.dart';
 import 'package:quotesapp/src/pages/widgets/quote_card.dart';
 import 'package:quotesapp/src/pages/widgets/quote_dialog.dart';
 import 'package:quotesapp/utils/constants.dart';
+import 'package:quotesapp/utils/tools.dart';
 import 'package:share/share.dart';
 
 class DataPage extends StatefulWidget {
@@ -27,8 +28,9 @@ class _DataPageState extends State<DataPage> {
   @override
   void initState() { 
     super.initState();
+    _dataBloc.quoteIndex = Tools.prefs.getInt('no') ?? 0;
     Future.delayed(Duration.zero, () {
-      _dataBloc.add(FetchData(_dataBloc));
+      _dataBloc.add(FetchData(_dataBloc, Tools.prefs.getString('date')));
     });
   }
   
@@ -65,7 +67,7 @@ class _DataPageState extends State<DataPage> {
   }
   Future<Null> _refresh() async {
     Future.delayed(Duration.zero, () {
-      FetchData(_dataBloc);
+      FetchData(_dataBloc, Tools.prefs.getString('date'));
     });
   }
 }
