@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/widgets.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:share/share.dart';
 import 'package:package_info/package_info.dart';
 
@@ -235,9 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Text("Share")
                           ],
                         ),
-                        onTap: (){Share.share("Get inspired and motivated :" +
-                                              "https://play.google.com/store/apps/details?id=" + 
-                                               packageInfo.appName);},
+                        onTap: (){},
                       ),
                     ],
                   ),
@@ -372,7 +371,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           onTap: () {
-                            close(context);
+                            Share.share("Get inspired and motivated :" +
+                                              "https://play.google.com/store/apps/details?id=" + 
+                                               packageInfo.appName);
                           },
                         ),
                         Divider(
