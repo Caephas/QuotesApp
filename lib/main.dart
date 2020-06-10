@@ -7,6 +7,8 @@ import 'package:quotesapp/src/pages/rate_us.dart';
 import 'package:quotesapp/utils/tools.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quotesapp/screens/hom_screen.dart';
+import 'package:flutter/services.dart';
 
 
 Future<void> main() async {
@@ -49,6 +51,7 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 
 class _MyHomePageState extends State<MyHomePage> {
 
