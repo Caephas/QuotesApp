@@ -23,8 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  smooth_star_rating: ^1.1.1
+  splashscreen: ^1.2.0
   package_info: ^0.4.0+13
+  smooth_star_rating: ^1.1.1
   bloc: ^3.0.0
   flutter_bloc: ^3.2.0
   equatable: ^1.1.1
@@ -40,7 +41,6 @@ dependencies:
   shared_preferences: ^0.5.7+3
   intl: ^0.16.1
   fluttertoast: ^4.0.1
-  splashscreen: ^1.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
