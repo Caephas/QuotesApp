@@ -10,6 +10,7 @@ class QuoteData {
     quote = json['quote'];
     author = json['author'];
     isLiked = json['isLiked'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -17,6 +18,7 @@ class QuoteData {
     data['quote'] = this.quote;
     data['author'] = this.author;
     data['isLiked'] = this.isLiked;
+    data['id'] = this.id;
     return data;
   }
 }

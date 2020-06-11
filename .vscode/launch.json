@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Flutter",
-            "program": "C:/Users/DELL/Desktop/quotes_app/lib/main.dart",
+            "program": "C:/Users/Archie/Desktop/GitHub/QuotesApp/lib/main.dart",
             "request": "launch",
             "type": "dart"
         }

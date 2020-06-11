@@ -21,12 +21,6 @@ class _QuoteDayState extends State<QuoteDay> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _dataBloc.close();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,

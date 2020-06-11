@@ -22,16 +22,23 @@ class _DataPageState extends State<DataPage> {
   void initState() { 
     super.initState();
     _dataBloc.quoteIndex = Tools.prefs.getInt('no') ?? 0;
+    _dataBloc.usid = Tools.prefs.getString('userid') ?? '';
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
           if(!_dataBloc.nomore) {
-            _dataBloc.add(FetchMoreData(_dataBloc));
+            _dataBloc.add(FetchMoreData(_dataBloc, _dataBloc.usid));
           }
       }
     });
-    Future.delayed(Duration.zero, () {
-      _dataBloc.add(FetchData(_dataBloc, Tools.prefs.getString('date')));
-    });
+    if(_dataBloc.usid.length == 0){
+      Future.delayed(Duration.zero, () {
+        _dataBloc.add(Auth(_dataBloc, Tools.prefs.getString('date')));
+      });
+    } else {
+      Future.delayed(Duration.zero, () {
+        _dataBloc.add(FetchData(_dataBloc, Tools.prefs.getString('date'), _dataBloc.usid));
+      });
+    }    
   }
   
   @override
@@ -80,7 +87,7 @@ class _DataPageState extends State<DataPage> {
   }
   Future<Null> _refresh() async {
     Future.delayed(Duration.zero, () {
-      FetchData(_dataBloc, Tools.prefs.getString('date'));
+      FetchData(_dataBloc, Tools.prefs.getString('date'), _dataBloc.usid);
     });
   }
 }
