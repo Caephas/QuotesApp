@@ -34,7 +34,7 @@ class ContactUs extends StatelessWidget {
           ),
           contentPadding: EdgeInsets.all(0.0),
           content: Container(
-            height: 250,
+            height: MediaQuery.of(context).size.height / (MediaQuery.of(context).size.height/250),
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Column(
@@ -60,9 +60,9 @@ class ContactUs extends StatelessWidget {
                 ),
                 SizedBox(height: 30,),
                 body('assets/images/twitter.svg', '@hnginternship', context),
-                SizedBox(height: 25,),
+                SizedBox(height: 20,),
                 body('assets/images/mail.svg', 'hello@hng.tech', context),
-                SizedBox(height: 25,),
+                SizedBox(height: 20,),
                 body('assets/images/web.svg', 'hng.tech', context),
               ],
             ),

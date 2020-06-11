@@ -3,12 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:quotesapp/home.dart';
 import 'package:quotesapp/src/pages/favourites_page.dart';
 import 'package:quotesapp/src/pages/quote_day.dart';
-import 'package:quotesapp/src/pages/rate_us.dart';
 import 'package:quotesapp/utils/tools.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:quotesapp/screens/hom_screen.dart';
-import 'package:flutter/services.dart';
 
 
 Future<void> main() async {

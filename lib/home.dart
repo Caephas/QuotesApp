@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quotesapp/drawer.dart';
 import 'package:quotesapp/src/pages/data_page.dart';
 import 'package:quotesapp/styles/colors.dart';
@@ -28,7 +27,8 @@ class _HomeState extends State<Home> {
           GestureDetector(
             onTap: () => _scaffoldKey.currentState.openEndDrawer(),
             child: Container(
-              margin: EdgeInsets.only(right: 28),
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              margin: EdgeInsets.only(right: 10),
               child: SvgPicture.asset(
                 'assets/images/ham.svg',
                 width: 24,

@@ -138,6 +138,17 @@ class _FavCardState extends State<FavCard> {
         ),
       );
       Scaffold.of(context).showSnackBar(snackBar);
+    }else {
+      Navigator.of(context).push(
+        new PageRouteBuilder(
+            opaque: false,
+            barrierColor: Colors.black.withOpacity(0.5),
+            barrierDismissible: true,
+            pageBuilder: (BuildContext context, __, _) {
+                return QuoteDialog(data: data, index: index);
+            }
+        )
+      );
     }
 
   }

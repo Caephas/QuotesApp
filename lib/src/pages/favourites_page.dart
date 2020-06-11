@@ -19,7 +19,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      _dataBloc.add(FetchFav( _dataBloc));
+      _dataBloc.add(FetchFav(_dataBloc));
     });
   }
 

@@ -9,9 +9,14 @@ class DataBloc extends Bloc<DataEvent, DataState> {
     return _dataBlocSingleton;
   }
 
+  void dispose() {
+    _dataBlocSingleton.close();
+  }
+
   DataBloc._internal();
 
   int quoteIndex;
+  bool nomore = false;
 
   @override
   get initialState => DataState.initial();
@@ -26,6 +31,16 @@ class DataBloc extends Bloc<DataEvent, DataState> {
     if(event is FetchDataSuccess) {
       newState.state = LoadingState.none;
       newState.quotes = event.quotes;
+      newState.list = event.list;
+      yield newState;
+    }
+    if(event is FetchMoreData) {
+      newState.state = LoadingState.none;
+      yield newState;
+    }
+    if(event is FetchMoreDataSuccess) {
+      newState.state = LoadingState.none;
+      newState.list = event.list;
       yield newState;
     }
     if(event is AddFav) {
@@ -41,7 +56,8 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       newState.state = LoadingState.loading;
       yield newState;
     }
-    if(event is FetchFavSuccess) {
+    if(event is Favs) {
+      print("Here");
       newState.state = LoadingState.none;
       newState.favquotes = event.favquotes;
       yield newState;

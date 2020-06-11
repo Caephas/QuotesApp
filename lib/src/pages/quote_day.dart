@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/bloc/states/data_state.dart';
-import 'package:quotesapp/src/pages/widgets/quote_day_dialog.dart';
-import 'package:quotesapp/src/pages/widgets/quote_dialog.dart';
 
 class QuoteDay extends StatefulWidget {
   static const String routeName = "/quoteday";
@@ -20,6 +18,12 @@ class _QuoteDayState extends State<QuoteDay> {
     setState(() {
       index = _dataBloc.quoteIndex;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _dataBloc.close();
   }
 
   @override

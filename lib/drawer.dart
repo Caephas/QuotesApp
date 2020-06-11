@@ -8,15 +8,12 @@ import 'package:package_info/package_info.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/pages/contact_us.dart';
 import 'package:quotesapp/src/pages/favourites_page.dart';
-import 'package:quotesapp/src/pages/quote_day.dart';
 import 'package:quotesapp/src/pages/rate_us.dart';
 import 'package:quotesapp/src/pages/widgets/quote_day_dialog.dart';
 import 'package:quotesapp/styles/colors.dart';
 import 'package:quotesapp/utils/tools.dart';
 import 'package:share/share.dart';
-import 'package:rating_bar/rating_bar.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class MainDrawer extends StatefulWidget {
 
@@ -36,17 +33,23 @@ class _MainDrawerState extends State<MainDrawer> {
     initDownloadsDirectoryState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _dataBloc.close();
+  }
+
   Future<void> initDownloadsDirectoryState() async {
-    Directory downloadsDirectory;
+    Directory _downloadsDirectory;
     try {
-      downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
+      _downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
     } on PlatformException {
       print('Could not get the downloads directory');
     }
     if (!mounted) return;
 
     setState(() {
-      downloadsDirectory = downloadsDirectory;
+      downloadsDirectory = _downloadsDirectory;
     });
   }
 
@@ -143,7 +146,7 @@ class _MainDrawerState extends State<MainDrawer> {
                       InkWell(
                         onTap: (){
                           Navigator.of(context).pop();
-                          QuoteDayDialog().showQuotesDialog(_dataBloc.state.quotes, context, downloadsDirectory, scaffoldKey, _dataBloc.quoteIndex, scr, _dataBloc);
+                          QuoteDayDialog().showQuotesDialog(_dataBloc.state.quotes, context, downloadsDirectory.path, scaffoldKey, _dataBloc.quoteIndex, scr, _dataBloc);
                         },
                         child: draw('assets/images/spike.svg', 'Quote of the day')
                       ),
