@@ -29,6 +29,7 @@
 .packages
 .pub-cache/
 .pub/
+/android/key.properties
 /build/
 
 # Web related

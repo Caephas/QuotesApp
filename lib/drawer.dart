@@ -33,12 +33,6 @@ class _MainDrawerState extends State<MainDrawer> {
     initDownloadsDirectoryState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _dataBloc.close();
-  }
-
   Future<void> initDownloadsDirectoryState() async {
     Directory _downloadsDirectory;
     try {

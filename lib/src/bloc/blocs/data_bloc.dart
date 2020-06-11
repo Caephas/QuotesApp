@@ -9,14 +9,11 @@ class DataBloc extends Bloc<DataEvent, DataState> {
     return _dataBlocSingleton;
   }
 
-  void dispose() {
-    _dataBlocSingleton.close();
-  }
-
   DataBloc._internal();
 
   int quoteIndex;
   bool nomore = false;
+  String usid;
 
   @override
   get initialState => DataState.initial();
@@ -29,7 +26,6 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       yield newState;
     }
     if(event is FetchDataSuccess) {
-      print('data');
       newState.state = LoadingState.none;
       newState.quotes = event.quotes;
       newState.list = event.list;

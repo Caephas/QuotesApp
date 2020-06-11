@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/bloc/states/data_state.dart';
 import 'package:quotesapp/src/models/quote_data.dart';
@@ -9,26 +10,82 @@ import 'package:quotesapp/utils/tools.dart';
 
 abstract class DataEvent{}
 
-class FetchData extends DataEvent{
-  List<QuoteData> _quotes = [];
-  FetchData(DataBloc bloc, String date) {
-    List<QuoteData> hold;
-    fetch(bloc, hold, date);
+class Auth extends DataEvent{
+  Auth(DataBloc bloc, String date){
+    
+    authorize(bloc, date);
   }
 
-  void fetch(DataBloc bloc, List<QuoteData> hold, String dateString) async{
+  void authorize(DataBloc bloc, String date){
+    List _quotes = [];
+    String uid;
+    FirebaseAuth _auth = FirebaseAuth.instance;
+
+    Future signUp() async {
+      try {
+        AuthResult res = await _auth.signInAnonymously();
+        FirebaseUser user = res.user;
+        return user;
+      } catch (e) {
+        print(e.toString());
+        return null;
+      }
+    }
+
+    signUp().then((value){
+      uid = value.uid.toString();
+      QuoteData quote;
+      bloc.usid = value.uid.toString();
+      Tools.prefs.setString('userid', value.uid.toString());
+      final db = Firestore.instance;
+      
+      Future <List <DocumentSnapshot>> list() async {
+        var data = await db.collection('quotes').orderBy('id').getDocuments();
+        var docs = data.documents;
+        return docs;
+      }
+      list().then((data) async {
+        data.forEach((val) {
+          quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
+          _quotes.add(quote.toJson());
+          // Map<String, dynamic> quote = {
+          //   "quote": val['quote'],
+          //   "author": val['author'],
+          //   "isLiked": val['isLiked']
+          // };
+          // ref.setData(quote);
+          // quote.clear();
+        });
+      }).then((value){
+        for(int i=0; i<_quotes.length; i++){
+          DocumentReference ref = db.collection(uid).document();
+          ref.setData(_quotes[i]);
+        }
+        bloc.add(FetchData(bloc, date, uid));
+      });
+    });
+  }
+}
+
+class FetchData extends DataEvent{
+  List<QuoteData> _quotes = [];
+  FetchData(DataBloc bloc, String date, String uid) {
+    List<QuoteData> hold;
+    fetch(bloc, hold, date, uid);
+  }
+
+  void fetch(DataBloc bloc, List<QuoteData> hold, String dateString, String uid) async{
     QuoteData quote;
     final db = Firestore.instance;
     DocumentSnapshot lit;
     Future <List <DocumentSnapshot>> list() async {
-      var data = await db.collection('quotes').orderBy('id').limit(12).getDocuments();
+      var data = await db.collection(uid).orderBy('id').limit(12).getDocuments();
       var docs = data.documents;
       lit = docs.last;
       return docs;
     }
     list().then((data) async {
       data.forEach((val) {
-        print(val);
         quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
         _quotes.add(quote);
       });
@@ -65,17 +122,17 @@ class FetchDataSuccess extends DataEvent {
 
 class FetchMoreData extends DataEvent{
   List<QuoteData> _quotes = [];
-  FetchMoreData(DataBloc bloc) {
+  FetchMoreData(DataBloc bloc, String uid) {
     List<QuoteData> hold;
-    fetch(bloc, hold);
+    fetch(bloc, hold, uid);
   }
 
-  void fetch(DataBloc bloc, List<QuoteData> hold) async{
+  void fetch(DataBloc bloc, List<QuoteData> hold, String uid) async{
     QuoteData quote;
     final db = Firestore.instance;
     DocumentSnapshot lit;
     Future <List <DocumentSnapshot>> list() async {
-      var data = await db.collection('quotes').startAfter([bloc.state.list['id']]).orderBy('id').limit(12).getDocuments();
+      var data = await db.collection(uid).startAfter([bloc.state.list['id']]).orderBy('id').limit(12).getDocuments();
       var docs = data.documents;
       if(docs.length < 12) {
         bloc.nomore = true;
@@ -85,7 +142,6 @@ class FetchMoreData extends DataEvent{
     }
     list().then((data) async {
       data.forEach((val) {
-        print(val);
         quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false);
         bloc.state.quotes.add(quote);
       });
@@ -113,8 +169,7 @@ class AddFav extends DataEvent {
   void addFav(String quote, bool fav, DataBloc bloc) async{
     
     final db = Firestore.instance;
-    await db.collection('quotes').where('quote', isEqualTo: quote).getDocuments().then((value) {
-      print(value);
+    await db.collection(bloc.usid).where('quote', isEqualTo: quote).getDocuments().then((value) {
       value.documents.forEach((element) {
         db.collection("quotes").document(element.documentID).updateData({'isLiked': !fav}).then((value){
           bloc.add(AddFavSuccess(index, fav));
@@ -141,13 +196,12 @@ class FetchFav extends DataEvent {
     QuoteData fquote;
     final db = Firestore.instance;
     Future <List <DocumentSnapshot>> favList() async {
-      var data = await db.collection('quotes').where('isLiked', isEqualTo: true).getDocuments();
+      var data = await db.collection(bloc.usid).where('isLiked', isEqualTo: true).getDocuments();
       var docs = data.documents;
       return docs;
     }
     favList().then((data){
       data.forEach((val) {
-        print(val);
         fquote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
         _fquotes.add(fquote);
       });
