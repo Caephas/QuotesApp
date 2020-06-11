@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>982047576227-vud0dc8gocu027haeaivli3nlmsa9h4m.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.982047576227-vud0dc8gocu027haeaivli3nlmsa9h4m</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDDjhKAGGh-tEDd1k2YfMluo3lovMJZB28</string>
+	<key>GCM_SENDER_ID</key>
+	<string>982047576227</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.quotesapp</string>
+	<key>PROJECT_ID</key>
+	<string>imotivate-17c8f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>imotivate-17c8f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:982047576227:ios:66927b2d68363feeefaf16</string>
+	<key>DATABASE_URL</key>
+	<string>https://imotivate-17c8f.firebaseio.com</string>
+</dict>
+</plist>

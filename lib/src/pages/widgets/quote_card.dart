@@ -66,7 +66,7 @@ class _QuoteCardState extends State<QuoteCard> {
             children: <Widget>[
               Container(
                 child: Text(
-                  quote,
+                  '“'+quote+'”',
                   style: Theme.of(context).textTheme.headline5.copyWith(fontSize: 20, color: Colors.black),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

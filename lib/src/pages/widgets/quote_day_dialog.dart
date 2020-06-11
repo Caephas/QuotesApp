@@ -5,13 +5,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/bloc/events/data_event.dart';
-import 'package:quotesapp/src/bloc/states/data_state.dart';
 import 'package:quotesapp/src/models/quote_data.dart';
-import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
 import 'package:quotesapp/utils/tools.dart';
@@ -19,31 +15,40 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class QuoteDayDialog extends StatelessWidget {
 
-  takescrshot(BuildContext context, Directory _downloadsDirectory, GlobalKey<ScaffoldState> scalf, GlobalKey scr) async {
+  takescrshot(BuildContext context, String _downloadsDirectory, GlobalKey<ScaffoldState> scalf, GlobalKey scr) async {
     var status = await Permission.storage.request().isGranted;
     RenderRepaintBoundary boundary = scr.currentContext.findRenderObject();
     var image = await boundary.toImage();
     var byteData = await image.toByteData(format: ImageByteFormat.png);
     var pngBytes = byteData.buffer.asUint8List();
     if(status) {
-      final directory = DownloadsPathProvider.downloadsDirectory;
-      File imgFile = new File('${_downloadsDirectory.path}/screenshot.png');
+      String time = new DateTime.now().microsecondsSinceEpoch.toString();
+      File imgFile = new File('$_downloadsDirectory/screenshot'+time+'.png');
       imgFile.writeAsBytes(pngBytes);
     }
-    final snackBar = SnackBar(
-      content: Text('Saved to ${_downloadsDirectory.path}'),
-      action: SnackBarAction(
-        label: 'Ok',
-        onPressed: () {
-          // Some code
-        },
-      ),
+    Fluttertoast.showToast(
+      msg: "Saved to $_downloadsDirectory",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0
     );
+    // final snackBar = SnackBar(
+    //   content: Text('Saved to ${_downloadsDirectory.path}'),
+    //   action: SnackBarAction(
+    //     label: 'Ok',
+    //     onPressed: () {
+    //       // Some code
+    //     },
+    //   ),
+    // );
 
-    scalf.currentState.showSnackBar(snackBar);
+    // scalf.currentState.showSnackBar(snackBar);
   }
 
-  showQuotesDialog(List<QuoteData> data, BuildContext context, Directory downloadsDirectory, GlobalKey<ScaffoldState> scalf, int ind, GlobalKey scr, DataBloc bloc) {
+  showQuotesDialog(List<QuoteData> data, BuildContext context, String downloadsDirectory, GlobalKey<ScaffoldState> scalf, int ind, GlobalKey scr, DataBloc bloc) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -55,7 +60,7 @@ class QuoteDayDialog extends StatelessWidget {
           contentPadding: EdgeInsets.all(0.0),
           content: Container(
             width: MediaQuery.of(context).size.width,
-              height: data[ind].quote.length < 70 ? (data[ind].quote.length*8).toDouble() : data[ind].quote.length < 200 ? (data[ind].quote.length*4.5).toDouble() : (data[ind].quote.length*3).toDouble(),            
+            height: (((data[ind].quote.length).toDouble())+ 370),            
             child: Scaffold(
               key: scalf,
               backgroundColor: Colors.transparent,
@@ -63,8 +68,8 @@ class QuoteDayDialog extends StatelessWidget {
                 children: <Widget>[
                   RepaintBoundary(
                     key: scr,
-                    child: Container( 
-                      height: (data[ind].quote.length < 70 ? (data[ind].quote.length*8).toDouble() : data[ind].quote.length < 200 ? (data[ind].quote.length*4).toDouble() : (data[ind].quote.length*2.5).toDouble())-68,
+                    child: Container(
+                      height: (((data[ind].quote.length).toDouble())+ 370)-70, 
                       child: Stack(
                         children: <Widget>[
                           Container(
@@ -79,9 +84,7 @@ class QuoteDayDialog extends StatelessWidget {
                                     colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.darken)
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(top:5.0, bottom: 5, left: 10, right: 10),
+                            padding: const EdgeInsets.only(top:5.0, bottom: 20, left: 10, right: 10),
                             child: Column(
                               children: <Widget>[
                                 Row(
@@ -160,7 +163,7 @@ class QuoteDayDialog extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 68,
+                    height: 70,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(8),
@@ -173,54 +176,63 @@ class QuoteDayDialog extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         GestureDetector(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Icon(
-                                Icons.favorite,
-                                color: data[ind].isLiked ? Colors.red : Colors.grey,
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text("Like")
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.favorite,
+                                  color: data[ind].isLiked ? Colors.red : Colors.grey,
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text("Like")
+                              ],
+                            ),
                           ),
                           onTap: (){
                             bloc.add(AddFav(data[ind].quote, data[ind].isLiked, ind, bloc));
                           },
                         ),
                         GestureDetector(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Icon(Icons.save_alt),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text("Save Image")
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Icon(Icons.save_alt),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text("Save Image")
+                              ],
+                            ),
                           ),
 
                           onTap: () => takescrshot(context, downloadsDirectory, scalf, scr),
                         ),
                         GestureDetector(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Icon(Icons.content_copy),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text("Copy text")
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Icon(Icons.content_copy),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text("Copy text")
+                              ],
+                            ),
                           ),
                           onTap: (){
                             Clipboard.setData(new ClipboardData(text: data[ind].quote+'\n'+'-'+data[ind].author));
                             Fluttertoast.showToast(
                                 msg: "Text Copied Succesfully",
                                 toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
+                                gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
                                 backgroundColor: Colors.black,
                                 textColor: Colors.white,
@@ -229,15 +241,18 @@ class QuoteDayDialog extends StatelessWidget {
                           },
                         ),
                         GestureDetector(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Icon(Icons.share),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text("Share")
-                            ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Icon(Icons.share),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text("Share")
+                              ],
+                            ),
                           ),
                           onTap: (){
                             Share.share(data[ind].quote+'\n'+'-'+data[ind].author);

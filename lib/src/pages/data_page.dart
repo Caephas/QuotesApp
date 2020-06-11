@@ -1,19 +1,11 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
 import 'package:quotesapp/src/bloc/events/data_event.dart';
 import 'package:quotesapp/src/bloc/states/data_state.dart';
-import 'package:quotesapp/src/models/quote_data.dart';
 import 'package:quotesapp/src/pages/widgets/quote_card.dart';
-import 'package:quotesapp/src/pages/widgets/quote_dialog.dart';
-import 'package:quotesapp/utils/constants.dart';
 import 'package:quotesapp/utils/tools.dart';
-import 'package:share/share.dart';
 
 class DataPage extends StatefulWidget {
   @override
@@ -22,6 +14,7 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   var _dataBloc = DataBloc();
+  ScrollController _scrollController = ScrollController();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =new GlobalKey<RefreshIndicatorState>();
   int ind;
 
@@ -29,9 +22,22 @@ class _DataPageState extends State<DataPage> {
   void initState() { 
     super.initState();
     _dataBloc.quoteIndex = Tools.prefs.getInt('no') ?? 0;
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+          if(!_dataBloc.nomore) {
+            _dataBloc.add(FetchMoreData(_dataBloc));
+          }
+      }
+    });
     Future.delayed(Duration.zero, () {
       _dataBloc.add(FetchData(_dataBloc, Tools.prefs.getString('date')));
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
   
   @override
@@ -52,9 +58,22 @@ class _DataPageState extends State<DataPage> {
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                 height: MediaQuery.of(context).size.height,
                 child: ListView.builder(
+                  controller: _scrollController,
                   itemCount: state.quotes.length,
                   itemBuilder: (context, index) {
-                    return QuoteCard(quote: state.quotes[index].quote, author: state.quotes[index].author, isLiked: state.quotes[index].isLiked, index: index, data: state.quotes, context: context);
+                    return index == state.quotes.length-1 ? 
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5.0),
+                          width: _dataBloc.nomore ? 0 : 20,
+                          height: _dataBloc.nomore ? 0 : 20,
+                          child: _dataBloc.nomore ? SizedBox(height: 0,) : CircularProgressIndicator(strokeWidth: 2,),
+                        ),
+                      ],
+                    ) :  QuoteCard(quote: state.quotes[index].quote, author: state.quotes[index].author, isLiked: state.quotes[index].isLiked, index: index, data: state.quotes, context: context);
                   },
                 ),
               ),

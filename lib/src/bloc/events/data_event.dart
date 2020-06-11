@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quotesapp/src/bloc/blocs/data_bloc.dart';
+import 'package:quotesapp/src/bloc/states/data_state.dart';
 import 'package:quotesapp/src/models/quote_data.dart';
 import 'package:intl/intl.dart';
 import 'package:quotesapp/utils/tools.dart';
@@ -18,18 +18,18 @@ class FetchData extends DataEvent{
 
   void fetch(DataBloc bloc, List<QuoteData> hold, String dateString) async{
     QuoteData quote;
-
-    
     final db = Firestore.instance;
+    DocumentSnapshot lit;
     Future <List <DocumentSnapshot>> list() async {
-      var data = await db.collection('quotes').getDocuments();
+      var data = await db.collection('quotes').orderBy('id').limit(12).getDocuments();
       var docs = data.documents;
+      lit = docs.last;
       return docs;
     }
     list().then((data) async {
       data.forEach((val) {
         print(val);
-        quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false);
+        quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
         _quotes.add(quote);
       });
     }).then((value) {
@@ -50,7 +50,7 @@ class FetchData extends DataEvent{
           Tools.prefs.setInt('no', ran);
         }
       }
-      bloc.add(FetchDataSuccess(_quotes));
+      bloc.add(FetchDataSuccess(_quotes, lit));
     });
     
   }
@@ -58,8 +58,49 @@ class FetchData extends DataEvent{
 
 class FetchDataSuccess extends DataEvent {
   List<QuoteData> quotes;
+  DocumentSnapshot list;
   
-  FetchDataSuccess(this.quotes);
+  FetchDataSuccess(this.quotes, this.list);
+}
+
+class FetchMoreData extends DataEvent{
+  List<QuoteData> _quotes = [];
+  FetchMoreData(DataBloc bloc) {
+    List<QuoteData> hold;
+    fetch(bloc, hold);
+  }
+
+  void fetch(DataBloc bloc, List<QuoteData> hold) async{
+    QuoteData quote;
+    final db = Firestore.instance;
+    DocumentSnapshot lit;
+    Future <List <DocumentSnapshot>> list() async {
+      var data = await db.collection('quotes').startAfter([bloc.state.list['id']]).orderBy('id').limit(12).getDocuments();
+      var docs = data.documents;
+      if(docs.length < 12) {
+        bloc.nomore = true;
+      }
+      lit = docs.last;
+      return docs;
+    }
+    list().then((data) async {
+      data.forEach((val) {
+        print(val);
+        quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false);
+        bloc.state.quotes.add(quote);
+      });
+    }).then((value) {
+      bloc.add(FetchMoreDataSuccess(_quotes, lit));
+    });
+    
+  }
+}
+
+class FetchMoreDataSuccess extends DataEvent {
+  List<QuoteData> quotes;
+  DocumentSnapshot list;
+  
+  FetchMoreDataSuccess(this.quotes, this.list);
 }
 
 class AddFav extends DataEvent {
@@ -107,17 +148,17 @@ class FetchFav extends DataEvent {
     favList().then((data) async {
       data.forEach((val) {
         print(val);
-        fquote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false);
+        fquote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
         _fquotes.add(fquote);
       });
     }).then((value) {
-      bloc.add(FetchFavSuccess(_fquotes));
+      bloc.add(Favs(_fquotes));
     });
   }
 }
 
-class FetchFavSuccess extends DataEvent {
+class Favs extends DataEvent {
   List<QuoteData> favquotes;
   
-  FetchFavSuccess(this.favquotes);
+  Favs(this.favquotes);
 }

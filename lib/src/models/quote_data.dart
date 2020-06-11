@@ -2,8 +2,9 @@ class QuoteData {
   String quote;
   String author;
   bool isLiked;
+  int id;
 
-  QuoteData({this.quote, this.author, this.isLiked});
+  QuoteData({this.quote, this.author, this.isLiked, this.id});
 
   QuoteData.fromJson(Map<String, dynamic> json) {
     quote = json['quote'];
