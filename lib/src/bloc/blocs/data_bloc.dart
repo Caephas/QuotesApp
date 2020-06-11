@@ -29,6 +29,7 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       yield newState;
     }
     if(event is FetchDataSuccess) {
+      print('data');
       newState.state = LoadingState.none;
       newState.quotes = event.quotes;
       newState.list = event.list;
@@ -57,7 +58,6 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       yield newState;
     }
     if(event is Favs) {
-      print("Here");
       newState.state = LoadingState.none;
       newState.favquotes = event.favquotes;
       yield newState;

@@ -32,7 +32,7 @@ class FetchData extends DataEvent{
         quote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
         _quotes.add(quote);
       });
-    }).then((value) {
+    }).then((value)async {
       if(dateString == null) {
         DateTime currentTime= DateTime.now();
         Tools.prefs.setString('date', DateFormat("dd-MM-yyyy").format(currentTime).toString());
@@ -145,7 +145,7 @@ class FetchFav extends DataEvent {
       var docs = data.documents;
       return docs;
     }
-    favList().then((data) async {
+    favList().then((data){
       data.forEach((val) {
         print(val);
         fquote = new QuoteData(quote: val['quote']??'Nothing', author: val['author']??'Nothing', isLiked: val['isLiked']??false, id: val['id']);
