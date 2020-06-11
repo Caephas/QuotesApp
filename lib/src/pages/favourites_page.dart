@@ -48,7 +48,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                   height: MediaQuery.of(context).size.height,
-                  child: ListView.builder(
+                  child: state.favquotes.length == 0 ? Center(child: Text('Nothing Added Here'),) : ListView.builder(
                     itemCount: state.favquotes.length,
                     itemBuilder: (context, index) {
                       return FavCard(quote: state.favquotes[index].quote, author: state.favquotes[index].author, isLiked: state.favquotes[index].isLiked, index: index, data: state.favquotes, context: context);

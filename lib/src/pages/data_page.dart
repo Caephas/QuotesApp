@@ -33,12 +33,6 @@ class _DataPageState extends State<DataPage> {
       _dataBloc.add(FetchData(_dataBloc, Tools.prefs.getString('date')));
     });
   }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
   
   @override
   Widget build(BuildContext context) {
