@@ -21,7 +21,7 @@ This project is a HNG mobile development project and a starting point for a Flut
 installed on your pc.
 3. Get a mobile emulator installed on your pc.
 
-### Useage
+### Usage
 
 1. Download or clone this repo.
 2. Unzip the download or clone repo.
@@ -33,10 +33,8 @@ installed on your pc.
 
 ### Outcome
 
-- ![Splash Screen](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200608-210913.png)
-- ![App navigation Drawer](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200609-165000png)
-- ![Quote](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200609-140653.png)
-- ![Home](https://github.com/xi6th/QuotesApp/blob/master/images/Screenshot_20200609-030351.png)
+<img width="200" alt="Splash Screen" src="https://user-images.githubusercontent.com/52785343/84541399-3d126b80-acef-11ea-9e88-ced40be41eb0.png"> <img width="200" alt="Home" src="https://user-images.githubusercontent.com/52785343/84541412-43a0e300-acef-11ea-94fc-359cc5595cd3.png"> <img width="200" alt="App navigation Drawer" src="https://user-images.githubusercontent.com/52785343/84541446-50bdd200-acef-11ea-98d3-381c7e5d50ed.png"> <img width="200" alt="Quote" src="https://user-images.githubusercontent.com/52785343/84541461-561b1c80-acef-11ea-9993-758a1850d573.png">
+
 
 ## References
 
